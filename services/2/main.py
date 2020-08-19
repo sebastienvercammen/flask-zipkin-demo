@@ -1,4 +1,5 @@
 import os
+import random
 from distutils.util import strtobool
 
 import requests
@@ -10,6 +11,7 @@ from py_zipkin.zipkin import ZipkinAttrs, zipkin_client_span, zipkin_span
 app = Flask(__name__)
 
 SERVICE_NAME = os.environ.get("SERVICE_NAME")
+INTENTIONAL_FAILURE_PCT = float(os.environ.get("INTENTIONAL_FAILURE_PCT", 0))
 ZIPKIN_DEBUG = strtobool(os.environ.get("ZIPKIN_DEBUG", "false").lower())
 ZIPKIN_DSN = os.environ.get("ZIPKIN_DSN", "http://zipkin:9411/api/v2/spans")
 ZIPKIN_SAMPLE_RATE = float(os.environ.get("ZIPKIN_SAMPLE_RATE", 100.0))
@@ -38,8 +40,11 @@ def log_request_info():
 
 @zipkin_client_span(service_name=SERVICE_NAME, span_name=f"call_service3_from_{SERVICE_NAME}")
 def call_service3():
-    requests.get(SERVICE3_URL, headers=create_http_headers())
-    return "OK"
+    # Intentional chance to fail
+    if INTENTIONAL_FAILURE_PCT and random.randint(0, 100) <= INTENTIONAL_FAILURE_PCT:
+        raise Exception(f"Intentional {INTENTIONAL_FAILURE_PCT}% failure")
+
+    return requests.get(SERVICE3_URL, headers=create_http_headers())
 
 
 @app.route("/")
@@ -60,8 +65,7 @@ def index():
         sample_rate=ZIPKIN_SAMPLE_RATE,
         encoding=Encoding.V2_JSON
     ):
-        call_service3()
-    return "OK", 200
+        return str(call_service3().status_code), 200
 
 
 if __name__ == "__main__":

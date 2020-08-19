@@ -2,9 +2,10 @@
 
 This demo shows how to
 
-* integrate [py_zipkin](https://github.com/Yelp/py_zipkin/) in a Python project using Flask
-    * with separate [client](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/services/1/main.py#L39) and [server](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/services/1/main.py#L53-L60) Zipkin spans (see [`Client` vs `Server` start/finish](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/docs/Client%20Span%20Annotations.png))
+* integrate [py_zipkin](https://github.com/Yelp/py_zipkin/) in a Python project that uses Flask
+    * with separate [client](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/services/1/main.py#L41) and [server](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/services/1/main.py#L53-L60) Zipkin spans (see [`Client` vs `Server` start/finish](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/docs/Client%20Span%20Annotations.png))
     * with [manually added binary annotations](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/services/1/main.py#L61) (see `user_headers` [in the bottom right](https://raw.githubusercontent.com/sebastienvercammen/flask-zipkin-demo/master/docs/Trace.png))
+    * with an [intentional 50% chance to raise an exception](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/services/2/main.py#L43-L45) so it can be traced
 * use Docker to build and deploy the services
     * with [`env_file`](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/docker-compose.yml#L17-L18) for configuration defaults and [`environment`](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/docker-compose.yml#L19-L20) for customization
 * [visualize Zipkin traces with the Zipkin UI](https://github.com/sebastienvercammen/flask-zipkin-demo#result)
@@ -53,15 +54,29 @@ User
 
 * `docker-compose down`
 
-## Result
+## Results
 
-Visualization of the trace via the Zipkin UI `http://localhost:9411/zipkin`.
+### Visualization of the trace via the Zipkin UI
+
+Browse to `http://localhost:9411/zipkin`.
 
 ![Trace](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/docs/Trace.png)
 
-Client spans are included in the annotations in the Zipkin UI. Other visualizers don't auto-combine them.
+### Client vs Server spans
+
+Client spans are included in the annotations in the Zipkin UI. Other visualizers don't always auto-combine them.
 
 ![Client Span Annotations](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/docs/Client%20Span%20Annotations.png)
+
+### Exception Traces
+
+The list of traces with success and exception traces.
+
+![Trace List](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/docs/Trace%20List.png)
+
+A specific trace that raised an intentional exception.
+
+![Exception Trace](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/docs/Exception%20Trace.png)
 
 ## Resources
 

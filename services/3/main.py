@@ -57,8 +57,7 @@ def index():
         sample_rate=ZIPKIN_SAMPLE_RATE,
         encoding=Encoding.V2_JSON
     ):
-        sleep(2)
-    return "OK", 200
+        return sleep(2), 200
 
 
 if __name__ == "__main__":

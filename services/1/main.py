@@ -1,3 +1,4 @@
+import json
 import os
 from distutils.util import strtobool
 
@@ -10,6 +11,7 @@ from py_zipkin.zipkin import zipkin_client_span, zipkin_span
 app = Flask(__name__)
 
 SERVICE_NAME = os.environ.get("SERVICE_NAME")
+INTENTIONAL_FAILURE_PCT = float(os.environ.get("INTENTIONAL_FAILURE_PCT", 0))
 ZIPKIN_DSN = os.environ.get("ZIPKIN_DSN", "http://zipkin:9411/api/v2/spans")
 ZIPKIN_SAMPLE_RATE = float(os.environ.get("ZIPKIN_SAMPLE_RATE", 100.0))
 SERVICE2_URL = os.environ.get("SERVICE2_URL", "http://service2:5000/")
@@ -38,14 +40,12 @@ def log_request_info():
 
 @zipkin_client_span(service_name=SERVICE_NAME, span_name=f"call_service2_from_{SERVICE_NAME}")
 def call_service2():
-    requests.get(SERVICE2_URL, headers=create_http_headers())
-    return "OK"
+    return requests.get(SERVICE2_URL, headers=create_http_headers())
 
 
 @zipkin_client_span(service_name=SERVICE_NAME, span_name=f"call_service3_from_{SERVICE_NAME}")
 def call_service3():
-    requests.get(SERVICE3_URL, headers=create_http_headers())
-    return "OK"
+    return requests.get(SERVICE3_URL, headers=create_http_headers())
 
 
 @app.route('/')
@@ -60,9 +60,13 @@ def index():
     ) as zipkin_context:
         zipkin_context.update_binary_annotations({"user_headers": request.headers})
 
-        call_service2()
-        call_service3()
-    return "OK", 200
+        return json.dumps({
+            "failure_chance_pct": INTENTIONAL_FAILURE_PCT,
+            "response_codes": {
+                "service2": call_service2().status_code,
+                "service3": call_service3().status_code
+            }
+        }, indent=4), 200
 
 
 if __name__ == "__main__":
