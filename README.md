@@ -10,6 +10,25 @@ This demo shows how to
     * with [`env_file`](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/docker-compose.yml#L17-L18) for configuration defaults and [`environment`](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/docker-compose.yml#L19-L20) for customization
 * [visualize Zipkin traces with the Zipkin UI](https://github.com/sebastienvercammen/flask-zipkin-demo#result)
 
+Table of Contents
+=================
+
+* [Distributed tracing demo with Zipkin and Flask](#distributed-tracing-demo-with-zipkin-and-flask)
+    * [Demo Request Flow](#demo-request-flow)
+    * [Notes](#notes)
+        * [General](#general)
+        * [Scaling](#scaling)
+    * [Running the Demo](#running-the-demo)
+        * [Requirements](#requirements)
+        * [Usage](#usage)
+        * [Removing the Services](#removing-the-services)
+    * [Results](#results)
+        * [Visualization of the trace via the Zipkin UI](#visualization-of-the-trace-via-the-zipkin-ui)
+        * [Client vs Server spans](#client-vs-server-spans)
+        * [Exception Traces](#exception-traces)
+    * [Resources](#resources)
+        * [Articles](#articles)
+
 ## Demo Request Flow
 
 ![Request Flow](https://github.com/sebastienvercammen/flask-zipkin-demo/blob/master/docs/Request%20Flow.png)
