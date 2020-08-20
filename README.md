@@ -106,5 +106,9 @@ A specific trace that raised an intentional exception.
 
 ### Articles
 
-* https://rollout.io/blog/introducing-distributed-tracing-in-your-python-application-via-zipkin/
-* https://dzone.com/articles/opentracing-in-nodejs-go-python-what-why-how
+* [Introducing Distributed Tracing in Your Python Application via Zipkin](https://rollout.io/blog/introducing-distributed-tracing-in-your-python-application-via-zipkin/)
+* [OpenTracing in NodeJS, GO, Python: What, Why, How?](https://dzone.com/articles/opentracing-in-nodejs-go-python-what-why-how)
+* [A Quick Introduction to Distributed Tracing](https://newrelic.com/resources/ebooks/quick-introduction-distributed-tracing)
+* [Microservices: Using Distributed Tracing for Monitoring & Troubleshooting](https://cloudacademy.com/blog/microservices-using-distributed-tracing-monitoring-troubleshooting/)
+* [The 5 Pillars of Distributed Tracing](https://www.tfir.io/the-5-pillars-of-distributed-tracing/)
+* [A guide to the open source distributed tracing landscape](https://developers.redhat.com/blog/2019/05/01/a-guide-to-the-open-source-distributed-tracing-landscape/)
